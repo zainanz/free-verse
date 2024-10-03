@@ -5,8 +5,9 @@ import { useCallback, useEffect } from "react"
 import axios from '../../axiosInstance';
 export default function Home() {
 
-  const FetchPosts = useCallback( () => {
+  const FetchPosts = useCallback( async () => {
     const response = axios.get("/posts")
+    console.log((await (await response).data))
   }, [])
 
   useEffect( () => {
