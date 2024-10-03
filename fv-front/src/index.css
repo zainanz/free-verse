@@ -6,7 +6,7 @@ html, body {
   margin: 0;
   height: 100%;
   width: 100%;
-  background-color: rgba(10, 10, 10,0.7);
+  background: radial-gradient(#222, #000);
   color: white;
 }
 
