@@ -7,6 +7,16 @@ declare global{
     created_at: Date
 
   }
+  type UserLogin = {
+    username: string,
+    password: string
+  }
+
+  type User = {
+    username: string,
+    email: string,
+    token: string
+  }
 
 }
 
