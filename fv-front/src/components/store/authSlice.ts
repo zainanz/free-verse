@@ -1,6 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from '../../axiosInstance';
 
+
 type UserType = {
   user: User,
   isLoggedIn: boolean,
@@ -19,9 +20,11 @@ const initialState: UserType = {
 }
 
 export const loginUser = createAsyncThunk<User, UserLogin, { rejectValue: string }>("auth/loginUser", async (userdata: UserLogin, {rejectWithValue}) => {
-
+  const postdata = {
+    user: userdata
+  }
   try {
-  const response: any = await axios.post("/login", userdata)
+  const response: any = await axios.post("/login", postdata, { withCredentials: true } )
   const data: User = (response.data)
   return data
 
@@ -45,7 +48,7 @@ const authSlice = createSlice( {
       })
       .addCase(loginUser.fulfilled, (state, {payload}:{payload: User}) => {
         state.isLoading = false;
-        state.user = payload;
+        console.log(payload)
       })
       // .addCase(loginUser.rejected, (state, {payload}:{payload: string}) => {
       //   state.isLoading = false;
