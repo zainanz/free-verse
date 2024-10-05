@@ -1,18 +1,23 @@
 import { useState } from "react"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { createPost } from "../../store/authSlice";
-import { AppDispatch } from "../../store/store";
-
+import { RootState, AppDispatch } from "../../store/store";
+import { useNavigate } from "react-router-dom";
 
 export default function CreatePost(){
-
+  const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
+  const auth = useSelector((state: RootState) => state.auth)
   const [content, setContent] = useState("")
 
 
   const handleCreatePost = (e: React.FormEvent) => {
     e.preventDefault()
-    dispatch(createPost(content))
+    if(auth.isLoggedIn){
+      dispatch(createPost(content))
+    } else {
+      navigate("/login")
+    }
   }
   return ( <div className="border flex justify-center my-9">
 

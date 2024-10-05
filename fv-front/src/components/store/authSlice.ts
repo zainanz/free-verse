@@ -19,17 +19,19 @@ const initialState: UserType = {
 }
 
 export const verifyUser = createAsyncThunk( "auth/verifyUser", async () => {
-  const response  = await axios.get("/verify_user")
-  if(response.status === 200){
-    return response.data
-  } else
-  {
-    throw new Error("unathorized")
+  try {
+
+    const response  = await axios.get("/verify_user")
+      return response.data
+  }
+  catch (error: any){
+    console.log(error.response.data)
+    throw new Error(error.response?.data)
   }
 })
 
-export const createPost = createAsyncThunk( "auth/createPost", async () => {
-
+export const createPost = createAsyncThunk( "auth/createPost", async (content: string) => {
+  const reponse = await axios.post("/create_post")
 })
 
 
@@ -87,6 +89,7 @@ const authSlice = createSlice( {
       })
       .addCase(verifyUser.rejected, (state, action) => {
         state.isLoading = false;
+        console.log(action)
       })
     }
 })

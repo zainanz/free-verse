@@ -5,4 +5,21 @@ class ApplicationController < ActionController::API
     devise_parameter_sanitizer.permit(:sign_up, keys: %i[username])
     devise_parameter_sanitizer.permit(:account_update, keys: %i[username])
   end
+
+  def authenticate_user
+    begin
+      token = request.headers["Authorization"].split(" ").last
+      if token
+        Rails.logger.info(token)
+        decoded = JWT.decode(token,  Rails.application.credentials.devise_jwt_secret_key!, "HS256")
+        @user = User.find(decoded[0]["user_id"])
+      else
+        render json: { message: "Token is not valid." }
+      end
+    rescue JWT::ExpiredSignature
+      render json: { message: "Token has expired" }, status: :unauthorized
+    rescue => exception
+      render json: { message: "No session was found" }, status: :unauthorized
+    end
+  end
 end
