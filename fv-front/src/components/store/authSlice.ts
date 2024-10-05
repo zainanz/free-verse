@@ -3,22 +3,36 @@ import axios from '../../axiosInstance';
 import Cookies from "js-cookie";
 
 
-type UserType = {
-  user: User,
-  isLoggedIn: boolean,
-  isLoading: boolean,
-  Error: string | null
-}
+
 const initialState: UserType = {
   user: {
     username: "",
     email: "",
-    token: ""
+    created_at: "",
+    updated_at: "",
+    jti: "",
+    id: null
   },
   isLoggedIn: false,
   isLoading: false,
   Error: null
 }
+
+export const verifyUser = createAsyncThunk( "auth/verifyUser", async () => {
+  const response  = await axios.get("/verify_user")
+  if(response.status === 200){
+    return response.data
+  } else
+  {
+    throw new Error("unathorized")
+  }
+})
+
+export const createPost = createAsyncThunk( "auth/createPost", async () => {
+
+})
+
+
 export const loginUser = createAsyncThunk<LoginData, UserLogin, { rejectValue: string }>(
   "auth/loginUser",
   async (userdata: UserLogin, { rejectWithValue }) => {
@@ -31,7 +45,7 @@ export const loginUser = createAsyncThunk<LoginData, UserLogin, { rejectValue: s
       const data: LoginData = response.data;
 
       // Set the JWT token in cookies
-      Cookies.set("token", data.token, { sameSite: "None", secure: true });
+      Cookies.set("token", data.token!, { sameSite: "None", secure: true });
       // Return token and message
       return data;
 
@@ -62,8 +76,18 @@ const authSlice = createSlice( {
       .addCase(loginUser.rejected, (state, action: any) => {
         state.isLoading = false;
         state.Error = action.payload?.error ; // Set error message
-        console.log(state.Error)
-      });
-}
+      })
+      .addCase(verifyUser.fulfilled, (state, {payload}) => {
+        state.isLoading = false;
+        state.isLoggedIn = true;
+        state.user = payload.user
+      })
+      .addCase(verifyUser.pending, (state, action) => {
+        state.isLoading = true;
+      })
+      .addCase(verifyUser.rejected, (state, action) => {
+        state.isLoading = false;
+      })
+    }
 })
 export default authSlice.reducer;

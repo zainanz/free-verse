@@ -3,7 +3,10 @@ import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store/authSlice";
 import { AppDispatch, RootState } from "../store/store";
 import { useNavigate } from "react-router-dom";
+
+
 export default function Login() {
+
   const auth = useSelector((state: RootState) => state.auth)
   const [user, setUser] = useState<UserLogin>({username:"", password: ""});
   const navigate = useNavigate()
@@ -20,7 +23,6 @@ export default function Login() {
    }
 
    useEffect( () => {
-    console.log(auth)
     auth.isLoggedIn && navigate("/")
    }, [auth, auth.isLoggedIn, navigate])
 
