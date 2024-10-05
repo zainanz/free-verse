@@ -9,11 +9,9 @@ import { useCallback, useEffect, useState } from "react"
 
 // Fetcher
 import axios from '../../axiosInstance';
-import { useNavigate } from "react-router-dom"
 
 export default function Home() {
 
-  const navigate = useNavigate();
   const [posts, setPosts] = useState<Post[]>([])
 
   const FetchPosts = useCallback( async () => {
@@ -44,7 +42,7 @@ export default function Home() {
       {/* We will display all the posts here */}
       <div style={{width:"100%"}} className="w-full flex justify-center my-5">
       {
-        posts.map((p) => <Card post={p} onLike={handleLike}/>)
+        posts.map((p, index) => <Card key={index} post={p} onLike={handleLike}/>)
       }
       </div>
     </div>

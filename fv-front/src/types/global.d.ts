@@ -17,6 +17,11 @@ declare global{
     email: string,
     token: string
   }
+  type LoginData = {
+    token: string,
+    message:string,
+    user: string
+  }
 
 }
 

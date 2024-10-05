@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from '../../axiosInstance';
+import Cookies from "js-cookie";
 
 
 type UserType = {
@@ -18,21 +19,27 @@ const initialState: UserType = {
   isLoading: false,
   Error: null
 }
+export const loginUser = createAsyncThunk<LoginData, UserLogin, { rejectValue: string }>(
+  "auth/loginUser",
+  async (userdata: UserLogin, { rejectWithValue }) => {
+    const postdata = {
+      user: userdata
+    };
 
-export const loginUser = createAsyncThunk<User, UserLogin, { rejectValue: string }>("auth/loginUser", async (userdata: UserLogin, {rejectWithValue}) => {
-  const postdata = {
-    user: userdata
+    try {
+      const response = await axios.post("/login", postdata, { withCredentials: true });
+      const data: LoginData = response.data;
+
+      // Set the JWT token in cookies
+      Cookies.set("token", data.token, { sameSite: "None", secure: true });
+      // Return token and message
+      return data;
+
+    } catch (error: any) {
+      return rejectWithValue(error.response?.data || "An unknown error occurred");
+    }
   }
-  try {
-  const response: any = await axios.post("/login", postdata, { withCredentials: true } )
-  const data: User = (response.data)
-  return data
-
-  } catch (error: any) {
-    return rejectWithValue(error.response?.data || 'An unknown error occurred');
-  }
-
-})
+);
 
 const authSlice = createSlice( {
   name:"auth",
@@ -46,14 +53,17 @@ const authSlice = createSlice( {
         state.isLoading = true;
         state.Error = null;
       })
-      .addCase(loginUser.fulfilled, (state, {payload}:{payload: User}) => {
+      .addCase(loginUser.fulfilled, (state, {payload}:{payload: LoginData}) => {
         state.isLoading = false;
-        console.log(payload)
+        state.isLoggedIn = true;
+        const parsedUser = JSON.parse(payload.user)
+        state.user = parsedUser
       })
-      // .addCase(loginUser.rejected, (state, {payload}:{payload: string}) => {
-      //   state.isLoading = false;
-      //   state.Error = payload; // Set error message
-      // });
+      .addCase(loginUser.rejected, (state, action: any) => {
+        state.isLoading = false;
+        state.Error = action.payload?.error ; // Set error message
+        console.log(state.Error)
+      });
 }
 })
 export default authSlice.reducer;

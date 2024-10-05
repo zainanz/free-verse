@@ -1,11 +1,13 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { loginUser } from "../store/authSlice";
-import { AppDispatch } from "../store/store";
-
+import { AppDispatch, RootState } from "../store/store";
+import { useNavigate } from "react-router-dom";
 export default function Login() {
-    const [user, setUser] = useState<UserLogin>({username:"", password: ""});
-    const dispatch = useDispatch<AppDispatch>();
+  const auth = useSelector((state: RootState) => state.auth)
+  const [user, setUser] = useState<UserLogin>({username:"", password: ""});
+  const navigate = useNavigate()
+  const dispatch = useDispatch<AppDispatch>();
 
 
    const handleUser = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -17,10 +19,16 @@ export default function Login() {
     dispatch(loginUser(user))
    }
 
+   useEffect( () => {
+    console.log(auth)
+    auth.isLoggedIn && navigate("/")
+   }, [auth, auth.isLoggedIn, navigate])
+
   return (
     <form onSubmit={handleSubmit}>
       <input onChange={handleUser} value={user.username} name="username" type="text" placeholder="email or username" id="" />
       <input onChange={handleUser} value={user.password} name="password" type="text" placeholder="password" id="" />
+      <p className="text-warning">{auth.Error}</p>
       <input type="submit" value="login"/>
     </form>
   )
