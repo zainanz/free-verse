@@ -4,13 +4,14 @@ Rails.application.routes.draw do
       devise_for :users, path: '', path_names: {
         sign_in: 'login',
         sign_out: 'logout',
-        registration: 'signup'
+        registration: 'signup',
       },
       controllers: {
         sessions: 'api/v1/users/sessions',  # Full namespace is specified here
         registrations: 'api/v1/users/registrations'  # Ensure this is correct as well
       }
 
+      get '/verify_user', to: 'custom_users#verify_user'
       get "/posts", to: "posts#all_post"
     end
   end
