@@ -8,7 +8,7 @@ declare global{
     created_at: Date,
     updated_at: Date,
     user_id: number
-
+    editing: true
   }
   // Used when taking login Username and Password
   type UserLogin = {

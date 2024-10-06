@@ -39,7 +39,11 @@ const postSlice = createSlice({
   name: "post",
   initialState,
   reducers:{
-
+    // Review this
+    postEditing: (state, action) => {
+     const p =  state.posts.find( (post ) => post.id === action.payload )
+     console.log(p)
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -49,6 +53,7 @@ const postSlice = createSlice({
       .addCase(loadPost.fulfilled, (state, action) => {
         state.isLoading = false;
         state.posts = action.payload
+        // state.posts = action.payload.map( ( post:Post ) => ({...post, editing: false}) )
       })
       .addCase(createPost.fulfilled, (state, action) => {
         state.posts.unshift(action.payload.post)
@@ -57,4 +62,5 @@ const postSlice = createSlice({
 })
 
 
+export const {postEditing} = postSlice.actions;
 export default postSlice.reducer;
