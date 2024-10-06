@@ -5,7 +5,9 @@ declare global{
     id:number,
     content: string,
     likes: number,
-    created_at: Date
+    created_at: Date,
+    updated_at: Date,
+    user_id: number
 
   }
   // Used when taking login Username and Password

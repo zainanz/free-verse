@@ -20,7 +20,7 @@ module Api
         post_create = Post.create(user: @user, content: post_params_data[:content])
         render json: {
           message: "Created Successfully",
-          post:  "ok"
+          post:  post_create
         }, status: :ok
       end
 

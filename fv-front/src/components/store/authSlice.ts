@@ -102,9 +102,9 @@ const authSlice = createSlice( {
       .addCase(verifyUser.rejected, (state, action) => {
         state.isLoading = false;
       })
-      .addCase(createPost.rejected, (state, action) => {
-        Object.assign(state, initialState)
-        // state.Error = action
+      .addCase(createPost.rejected, (state, action) => { // Reason for this to be here is so that it can forcefully log out user in case he is unauthorized or unidentify in the backend
+        Object.assign(state, initialState);
+        Cookies.remove("token");
       })
     }
 })

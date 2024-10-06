@@ -20,7 +20,7 @@ export default function CreatePost(){
             user_id: auth.user.id,
             content
           }
-         const context =  await dispatch(createPost(createPostData)).unwrap()
+          await dispatch(createPost(createPostData)).unwrap()
         } else {
           throw new Error("Invalid User. Please login to continue.")
         }

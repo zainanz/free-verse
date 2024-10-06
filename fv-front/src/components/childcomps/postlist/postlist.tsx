@@ -1,28 +1,26 @@
-import axios from "../../../axiosInstance"
-import { Key, useCallback, useEffect, useState } from "react"
+import {Key, useEffect } from "react"
 import Card from "../card/card"
+import { useDispatch, useSelector } from "react-redux"
+import { loadPost } from "../../store/postSlice";
+import { AppDispatch, RootState } from "../../store/store";
 
 export default function Postlist(){
-  const [posts, setPosts] = useState<Post[]>([])
-
-  const FetchPosts = useCallback( async () => {
-    const response = await axios.get("/posts")
-    setPosts( () => response.data.posts)
-  }, [])
+  const post = useSelector((state: RootState) => state.post)
+  const dispatch = useDispatch<AppDispatch>();
 
   useEffect( () => {
-    FetchPosts()
-  }, [FetchPosts])
+    dispatch(loadPost())
+  }, [dispatch])
 
   const handleLike = () => {
 
   }
 
   return (
-
     <div style={{width:"100%"}} className="w-full flex flex-wrap flex-col  items-center justify-center">
       {
-        posts.map( (post: Post, index: Key) => <Card key={index} post={post} onLike={handleLike}/>)
+        post.isLoading ? <h3>Fetching all the posts for you..</h3> :
+        post.posts.map( (post: Post, index: Key) => <Card key={index} post={post} onLike={handleLike}/>)
       }
     </div>
   )
