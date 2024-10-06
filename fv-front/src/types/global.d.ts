@@ -36,6 +36,11 @@ declare global{
     Error: string | null
   }
 
+  type CreatePost = {
+    user_id: number,
+    content: string
+  }
+
 }
 
 export {};

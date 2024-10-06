@@ -20,7 +20,7 @@ export default function Postlist(){
 
   return (
 
-    <div style={{width:"100%"}} className="w-full flex justify-center my-5">
+    <div style={{width:"100%"}} className="w-full flex flex-wrap flex-col  items-center justify-center">
       {
         posts.map( (post: Post, index: Key) => <Card key={index} post={post} onLike={handleLike}/>)
       }

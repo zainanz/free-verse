@@ -25,13 +25,25 @@ export const verifyUser = createAsyncThunk( "auth/verifyUser", async () => {
       return response.data
   }
   catch (error: any){
-    console.log(error.response.data)
     throw new Error(error.response?.data)
   }
 })
 
-export const createPost = createAsyncThunk( "auth/createPost", async (content: string) => {
-  const reponse = await axios.post("/create_post")
+export const createPost = createAsyncThunk( "auth/createPost", async (createPostData: CreatePost) => {
+  try{
+    const sendPost = {
+      post: createPostData
+    }
+    console.log("checking post requests here.")
+    const response = await axios.post("/create_post", sendPost)
+    return response.data
+
+
+  } catch(error: any){
+    console.log(error)
+      return Promise.reject(error.data.message);
+  }
+
 })
 
 
@@ -77,7 +89,7 @@ const authSlice = createSlice( {
       })
       .addCase(loginUser.rejected, (state, action: any) => {
         state.isLoading = false;
-        state.Error = action.payload?.error ; // Set error message
+        state.Error = action.payload?.error ;
       })
       .addCase(verifyUser.fulfilled, (state, {payload}) => {
         state.isLoading = false;
@@ -89,7 +101,10 @@ const authSlice = createSlice( {
       })
       .addCase(verifyUser.rejected, (state, action) => {
         state.isLoading = false;
-        console.log(action)
+      })
+      .addCase(createPost.rejected, (state, action) => {
+        Object.assign(state, initialState)
+        // state.Error = action
       })
     }
 })

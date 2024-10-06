@@ -5,7 +5,7 @@ import { RootState } from '../../store/store';
 export default function Card({post, onLike}: {post: Post, onLike: Function}){
   const auth = useSelector((state: RootState) => state.auth)
   return (
-    <div className="border bg-zinc-900 rounded p-6 flex flex-col" style={{ width:"30rem"}} >
+    <div className="border bg-zinc-900 rounded p-6 flex flex-col my-5" style={{ width:"30rem"}} >
         <span className=" flex items-center">
           <img className="rounded-full circle" alt="D" style={{ width:'3rem', height:"3rem"}} src="./logo512.png"></img>
           <p className="px-4">Zainan Ali</p>

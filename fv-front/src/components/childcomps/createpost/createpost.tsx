@@ -11,12 +11,24 @@ export default function CreatePost(){
   const [content, setContent] = useState("")
 
 
-  const handleCreatePost = (e: React.FormEvent) => {
+  const handleCreatePost = async (e: React.FormEvent) => {
     e.preventDefault()
     if(auth.isLoggedIn){
-      dispatch(createPost(content))
-    } else {
-      navigate("/login")
+      try {
+        if (auth.user.id){
+          const createPostData: CreatePost = {
+            user_id: auth.user.id,
+            content
+          }
+         const context =  await dispatch(createPost(createPostData)).unwrap()
+        } else {
+          throw new Error("Invalid User. Please login to continue.")
+        }
+      } catch(er){
+        console.log(auth)
+        navigate("/login")
+
+      }
     }
   }
   return ( <div className="border flex justify-center my-9">

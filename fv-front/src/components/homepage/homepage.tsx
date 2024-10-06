@@ -12,11 +12,9 @@ export default function Home() {
   const auth = useSelector((state: RootState) => state.auth)
 
   if (auth.isLoading){
-    console.log("loading rendered")
     return (<h1>loading</h1>)
   }
 
-  console.log("homepage rendered")
   return (
     <div className="container mx-auto">
 

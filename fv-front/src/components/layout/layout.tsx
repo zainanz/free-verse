@@ -16,7 +16,6 @@ export default function Layout() {
     checkUser()
   }, [checkUser])
 
-  console.log("layout rendered")
   return (
     <div>
       <div><Navbar/></div>
