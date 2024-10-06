@@ -24,9 +24,14 @@ export default function Card({post, onLike}: {post: Post, onLike: Function}){
         <div style={{width: '100%', height:"auto", overflowWrap: 'break-word'}} className="my-3">
           {
             editing ? (
-            <form>
-              <input type="text" onChange={(e) => setEditValue( e.target.value )} value={editValue}/>
-              <input type="submit" />
+            <form className=" flex flex-col items-end">
+              <div className="flex w-full">
+                <input name="content" onChange={(e) => setEditValue( e.target.value )} value={editValue} type="text" style={{height:"3rem"}} placeholder="Write your story.." className="mb-3 w-full border-none bg-zinc-400 px-3 rounded"/>
+              </div>
+              <div>
+              <button onClick={() => setEditing(() => false)} className="text-zinc-800  text-white font-bold border-none" name="" style={{width:"5rem"}} id=""> Cancel </button>
+              <input type="submit" className=" text-white bg-zinc-800 font-bold border-none ml-5" value="Save" name="" style={{width:"5rem"}} id="" />
+              </div>
             </form>) : post.content
           }
 
