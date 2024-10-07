@@ -10,6 +10,7 @@ import {
 import Home from "./components/homepage/homepage"
 import Layout from './components/layout/layout';
 import Login from './components/form/login';
+import Profile from './profile/profile';
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -17,7 +18,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Layout/>}>
         <Route index element={<Home/>}/>
         <Route path="/login" element={<Login/>} />
-        <Route path="/:username" element={<Login/>}/>
+        <Route path="/:username" element={<Profile/>}/>
       </Route>
     </>
   )

@@ -36,6 +36,12 @@ declare global{
   }
 
 
+  // Profile Params
+  type ProfileParams = {
+    username: string
+  }
+
+
   // User related Type Ends here
 
   // Below this are Post related Type
@@ -48,7 +54,7 @@ declare global{
     created_at: Date,
     updated_at: Date,
     user_id: number
-    user:{
+    user?:{
       id: number,
       username: string
     }

@@ -57,7 +57,7 @@ const postSlice = createSlice({
       .addCase(loadPost.fulfilled, (state, {payload}:{payload: LoadPost}) => {
         state.isLoading = false;
         const retrievedAttributes = payload.posts.data.map( (p: LoadDataType) => (p.attributes))
-        state.posts = retrievedAttributes
+        state.posts = retrievedAttributes.reverse()
       })
       .addCase(createPost.fulfilled, (state, action: createPostActionType) => {
         console.log("hihihi", action);

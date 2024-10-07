@@ -6,7 +6,7 @@ import { RootState, AppDispatch } from '../../store/store';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { forceLogout } from '../../store/authSlice';
-export default function Card({post, onLike}: {post: Post, onLike: Function}){
+export default function Card({post, onLike, user}: {post: Post, onLike: Function, user?:User|null}){
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [editValue, setEditValue] = useState(post.content)
@@ -34,11 +34,11 @@ export default function Card({post, onLike}: {post: Post, onLike: Function}){
     <div className="border bg-zinc-900 rounded p-6 flex flex-col my-5" style={{ width:"30rem", height:"fit-content"}} >
         <div className=" flex items-center justify-between">
           <div className='flex items-center'>
-            <img className="rounded-full circle" alt="D" style={{ width:'3rem', height:"3rem"}} src="./logo512.png"></img>
-          <a href={post.user.username} className="no-underline text-white"><p className="px-4 hover:underline cursor-pointer" style={{textTransform:'capitalize'}}>{post.user!.username}</p></a>
+            <img className="rounded-full circle" alt="Avatar" style={{ width:'3rem', height:"3rem"}} src="./logo512.png"></img>
+          <a href={post.user ? post.user.username : user!.username } className="no-underline text-white"><p className="px-4 hover:underline cursor-pointer" style={{textTransform:'capitalize'}}>{post.user ? post.user.username : user!.username}</p></a>
           </div>
           {
-            auth.isLoggedIn && (auth.user.id === post.user!.id) && <FontAwesomeIcon onClick={ handlePostEdit } className="hover:opacity-50" icon={faPen}/>
+            auth.isLoggedIn && (auth.user.id === (post.user ? post.user.id : user!.id) ) && <FontAwesomeIcon onClick={ handlePostEdit } className="hover:opacity-50" icon={faPen}/>
           }
         </div>
         <div style={{width: '100%', height:"auto", overflowWrap: 'break-word'}} className="my-3">

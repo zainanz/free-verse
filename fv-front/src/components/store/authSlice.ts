@@ -18,6 +18,17 @@ const initialState: UserType = {
   Error: null
 }
 
+
+export const getUserProfile = createAsyncThunk( "auth/getUserProfile", async (username: string) => {
+    try{
+     const response = await  axios.get(`/profile/${username}`)
+      console.log(response.data)
+      return response.data
+    }catch(er){
+      return er
+    }
+})
+
 export const verifyUser = createAsyncThunk( "auth/verifyUser", async () => {
   try {
 
