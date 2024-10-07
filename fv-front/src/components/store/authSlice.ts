@@ -29,24 +29,6 @@ export const verifyUser = createAsyncThunk( "auth/verifyUser", async () => {
   }
 })
 
-export const createPost = createAsyncThunk( "auth/createPost", async (createPostData: CreatePost) => {
-  try{
-    const sendPost = {
-      post: createPostData
-    }
-    console.log("checking post requests here.")
-    const response = await axios.post("/create_post", sendPost)
-    return response.data
-
-
-  } catch(error: any){
-    console.log(error)
-      return Promise.reject(error.data.message);
-  }
-
-})
-
-
 export const loginUser = createAsyncThunk<LoginData, UserLogin, { rejectValue: string }>(
   "auth/loginUser",
   async (userdata: UserLogin, { rejectWithValue }) => {
@@ -73,7 +55,15 @@ const authSlice = createSlice( {
   name:"auth",
   initialState,
   reducers: {
-
+    logout: (state, action) => {
+      state = {...initialState}
+      Cookies.remove("token")
+    },
+    forceLogout: (state, action) => {
+      Object.assign(state, initialState)
+      state.Error = "We were unable to identify, please login to continue.";
+      Cookies.remove("token")
+    }
   },
   extraReducers: (builder) => {
     builder
@@ -102,10 +92,7 @@ const authSlice = createSlice( {
       .addCase(verifyUser.rejected, (state, action) => {
         state.isLoading = false;
       })
-      .addCase(createPost.rejected, (state, action) => { // Reason for this to be here is so that it can forcefully log out user in case he is unauthorized or unidentify in the backend
-        Object.assign(state, initialState);
-        Cookies.remove("token");
-      })
     }
 })
+export const {logout, forceLogout} = authSlice.actions;
 export default authSlice.reducer;

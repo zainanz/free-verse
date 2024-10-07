@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
-import { createPost } from "../../store/authSlice";
+import { createPost } from "../../store/postSlice";
 import { RootState, AppDispatch } from "../../store/store";
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +21,7 @@ export default function CreatePost(){
             content
           }
           await dispatch(createPost(createPostData)).unwrap()
+          setContent("")
         } else {
           throw new Error("Invalid User. Please login to continue.")
         }

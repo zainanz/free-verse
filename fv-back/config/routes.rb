@@ -14,6 +14,7 @@ Rails.application.routes.draw do
       get '/verify_user', to: 'custom_users#verify_user'
       get "/posts", to: "posts#all_post"
       post "/create_post", to: "posts#create_post"
+      patch "update_post", to: "posts#update_post"
     end
   end
 end

@@ -1,4 +1,4 @@
-import {Key, useEffect } from "react"
+import { useEffect } from "react"
 import Card from "../card/card"
 import { useDispatch, useSelector } from "react-redux"
 import { loadPost } from "../../store/postSlice";
@@ -20,7 +20,7 @@ export default function Postlist(){
     <div style={{width:"100%"}} className="w-full flex flex-wrap flex-col  items-center justify-center">
       {
         post.isLoading ? <h3>Fetching all the posts for you..</h3> :
-        post.posts.map( (post: Post, index: Key) => <Card key={index} post={post} onLike={handleLike}/>)
+        post.posts.map( (post: Post) => <Card key={post.id} post={post} onLike={handleLike}/>)
       }
     </div>
   )
