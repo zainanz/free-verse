@@ -21,15 +21,37 @@ module Api
 
       def all_post
         @posts = Post.includes(:user).limit(50)
-
-        render json: { posts: PostSerializer.new(@posts).serializable_hash }
+        begin
+          token = request.headers["Authorization"].split(" ").last
+          decoded = JWT.decode(token,  Rails.application.credentials.devise_jwt_secret_key!, "HS256")
+          @user = User.find(decoded[0]["user_id"])
+          render json: { posts: PostSerializer.new(@posts, {params: { user: @user }}).serializable_hash }
+        rescue => exception
+          render json: { posts: PostSerializer.new(@posts).serializable_hash }
+        end
       end
 
       def unlike_post
-        PostLike.where(post)
+        begin
+          post_id = permit_post_id
+          post = Post.find(post_id)
+          liked_post = PostLike.find_by(post: post, user: @user)
+          liked_post.destroy!
+          render json:{ post_id: post_id}, status: :ok
+        rescue => exception
+          render status: :unproccessable_entity
+        end
       end
 
       def like_post
+        begin
+          post_id = permit_post_id
+          post = Post.find(post_id)
+          PostLike.create!(post: post, user: @user)
+          render json:{ post_id: post_id}, status: :ok
+        rescue => exception
+          render status: :unproccessable_entity
+        end
       end
 
       def create_post
@@ -52,8 +74,8 @@ module Api
 
       private
 
-      def permit_like_unlike_params
-
+      def permit_post_id
+        params.require(:post_id)
       end
 
       def permit_edit_params

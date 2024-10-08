@@ -16,6 +16,8 @@ Rails.application.routes.draw do
       get "/posts", to: "posts#all_post"
       post "/create_post", to: "posts#create_post"
       patch "update_post", to: "posts#update_post"
+      get "like_post/:post_id", to: "posts#like_post"
+      delete "unlike_post/:post_id", to: "posts#unlike_post"
     end
   end
 end

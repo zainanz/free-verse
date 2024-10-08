@@ -3,7 +3,7 @@ class PostLike < ApplicationRecord
   after_destroy :decrement_post_like
   belongs_to :post
   belongs_to :user
-  validates :user, uniqueness: true
+  # validates :user, uniqueness: true
 
   def increment_post_like
     post.increment!(:likes)

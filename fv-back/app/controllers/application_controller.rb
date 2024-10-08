@@ -9,7 +9,6 @@ class ApplicationController < ActionController::API
   def authenticate_user
     begin
       token = request.headers["Authorization"].split(" ").last
-      Rails.logger.info(token)
       decoded = JWT.decode(token,  Rails.application.credentials.devise_jwt_secret_key!, "HS256")
       @user = User.find(decoded[0]["user_id"])
     rescue JWT::ExpiredSignature
