@@ -2,8 +2,27 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../axiosInstance";
 
 
+export const likePost = createAsyncThunk( "post/likePost", async (post_id: number) => {
+  try {
+    const res = await axios.get(`/like_post/${post_id}`)
+    return res.data.post_id
+  } catch (er) {
+    return er
+  }
+})
+
+export const unlikePost = createAsyncThunk( "post/unlikePost", async (post_id:number) => {
+  try {
+    const res = await axios.delete(`/unlike_post/${post_id}`)
+    return res.data.post_id
+  } catch (er) {
+    return er
+  }
+})
+
 export const loadPost = createAsyncThunk( "post/loadPost", async () => {
     const { data }:{data: LoadPost} = await axios.get("/posts")
+    console.log(data)
     return data
 })
 
@@ -69,6 +88,34 @@ const postSlice = createSlice({
           state.posts[index] = {...state.posts[index], content: payload.post.content} ;
         }
         console.log("Updated ", state.posts[index])
+      })
+      .addCase(likePost.fulfilled, (state, {payload}: {payload:Number}) => {
+        console.log(payload);
+
+        state.posts = state.posts.map( post =>{
+          console.log(post)
+          if (post.id === payload){
+            console.log("came here")
+            post.likes++;
+            post.post_liked_by_current_user = true
+            return post
+          }
+          return post
+        })
+      })
+      .addCase(unlikePost.fulfilled, (state, {payload}:{payload:Number}) => {
+        console.log(payload);
+
+        state.posts = state.posts.map( post =>{
+          console.log(post)
+          if (post.id === payload){
+            console.log("came here")
+            post.likes++;
+            post.post_liked_by_current_user = false
+            return post
+          }
+          return post
+        })
       })
   }
 })

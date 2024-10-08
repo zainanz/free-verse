@@ -22,9 +22,6 @@ export default function Profile(){
     }
   }, [dispatch, params.username])
 
-  const handleLike = () => {
-
-  }
 
   useEffect( () => {
     Profile()
@@ -37,7 +34,7 @@ export default function Profile(){
       }
 
       {
-        userPosts?.map(post =>   <Card onLike={handleLike} user={userProfile} post={post}/>)
+        userPosts?.map(post =>   <Card user={userProfile} post={post}/>)
       }
     </div>
   )

@@ -1,12 +1,13 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faShare, faPen } from '@fortawesome/free-solid-svg-icons';
-import { updatePost } from '../../store/postSlice';
+import { likePost, unlikePost, updatePost } from '../../store/postSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState, AppDispatch } from '../../store/store';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { forceLogout } from '../../store/authSlice';
-export default function Card({post, onLike, user}: {post: Post, onLike: Function, user?:User|null}){
+
+export default function Card({post, user}: {post: Post, user?:User|null}){
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
   const [editValue, setEditValue] = useState(post.content)
@@ -28,6 +29,13 @@ export default function Card({post, onLike, user}: {post: Post, onLike: Function
       dispatch(forceLogout(er))
       navigate("/login")
     }
+  }
+
+  const handleLike = () => {
+    dispatch(likePost(post.id))
+  }
+  const handleDislike = () => {
+    dispatch(unlikePost(post.id))
   }
 
   return (
@@ -59,7 +67,10 @@ export default function Card({post, onLike, user}: {post: Post, onLike: Function
         {
           !editing && auth.isLoggedIn && (
         <div className="w-full text-gray-500">
-          <FontAwesomeIcon onClick={() => onLike()} className="hover:text-white" icon={faHeart} />
+          {
+            post.post_liked_by_current_user ? (<FontAwesomeIcon onClick={() => handleDislike()} className="text-red-500 hover:opacity-60" icon={faHeart} />) :
+            (<FontAwesomeIcon onClick={() => handleLike()} className="hover:text-white" icon={faHeart} />)
+          }
           <FontAwesomeIcon className="ml-3 hover:text-white" icon={faShare} />
         </div>
           )

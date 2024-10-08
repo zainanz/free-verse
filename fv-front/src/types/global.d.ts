@@ -54,6 +54,7 @@ declare global{
     created_at: Date,
     updated_at: Date,
     user_id: number
+    post_liked_by_current_user: boolean
     user?:{
       id: number,
       username: string

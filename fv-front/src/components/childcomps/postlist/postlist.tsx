@@ -12,15 +12,12 @@ export default function Postlist(){
     dispatch(loadPost())
   }, [dispatch])
 
-  const handleLike = () => {
-
-  }
 
   return (
     <div style={{width:"100%"}} className="w-full flex flex-wrap flex-col  items-center justify-center">
       {
         post.isLoading ? <h3>Fetching all the posts for you..</h3> :
-        post.posts.map( (post: Post) => <Card key={post.id} post={post} onLike={handleLike}/>)
+        post.posts.map( (post: Post) => <Card key={post.id} post={post}/>)
       }
     </div>
   )
