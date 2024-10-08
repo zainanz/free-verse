@@ -1,10 +1,7 @@
 module Api
   module V1
     class PostsController < ApplicationController
-      before_action :authenticate_user, only: [ :create_post ]
-
-
-
+      before_action :authenticate_user, only: [ :create_post, :update_post, :like_post, :unlike_post ]
 
       def update_post
         begin
@@ -24,7 +21,15 @@ module Api
 
       def all_post
         @posts = Post.includes(:user).limit(50)
+
         render json: { posts: PostSerializer.new(@posts).serializable_hash }
+      end
+
+      def unlike_post
+        PostLike.where(post)
+      end
+
+      def like_post
       end
 
       def create_post
@@ -46,6 +51,11 @@ module Api
       end
 
       private
+
+      def permit_like_unlike_params
+
+      end
+
       def permit_edit_params
         params.require(:post).permit(:updatedContent, :post_id)
       end
