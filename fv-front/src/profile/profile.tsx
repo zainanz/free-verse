@@ -1,4 +1,6 @@
 import { useCallback, useEffect, useState } from "react"
+import { useSelector } from "react-redux";
+import { RootState } from "../components/store/store";
 import { AppDispatch } from "../components/store/store"
 import { useDispatch } from "react-redux"
 import { getUserProfile } from "../components/store/authSlice";
@@ -7,16 +9,14 @@ import Card from "../components/childcomps/card/card";
 
 export default function Profile(){
   const [userProfile, setUserProfile] = useState<User>()
-  const [userPosts, setUserPost] = useState<Post[]>()
+  const postStore = useSelector((state:RootState) => state.post)
   const dispatch = useDispatch<AppDispatch>();
   const params = useParams<ProfileParams>();
 
   const Profile = useCallback( async () => {
     try{
-      const res = await dispatch(getUserProfile(params.username!)).unwrap()
-      setUserProfile(() => res.user)
-      setUserPost( () => res.user_posts)
-
+      const {user} = await dispatch(getUserProfile(params.username!)).unwrap()
+      setUserProfile(() => user)
     }catch(er){
 
     }
@@ -27,6 +27,16 @@ export default function Profile(){
     Profile()
   }, [Profile])
 
+  useEffect( () => {
+    console.log(userProfile)
+    console.log(postStore.posts)
+  }, [userProfile,postStore])
+
+
+  if(!userProfile){
+    return (<h1>loading..</h1>)
+  }
+
   return (
     <div>
       {
@@ -34,7 +44,7 @@ export default function Profile(){
       }
 
       {
-        userPosts?.map(post =>   <Card user={userProfile} key={post.id} post={post}/>)
+        postStore.posts.map(post =>   <Card user={userProfile} key={post.id} post={post}/>)
       }
     </div>
   )

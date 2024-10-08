@@ -61,6 +61,13 @@ declare global{
     }
   }
 
+  // Initial State
+  type iniState = {
+    isLoading: boolean,
+    posts: Post[]
+  }
+
+
   // Load Post Response
   type LoadDataType = {
     id:number,

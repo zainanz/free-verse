@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "../../axiosInstance";
+import { getUserProfile } from "./authSlice";
 
 
 export const likePost = createAsyncThunk( "post/likePost", async (post_id: number) => {
@@ -53,10 +54,6 @@ export const updatePost = createAsyncThunk( "post/updatePost", async (postDetail
   }
 })
 
-type iniState = {
-  isLoading: boolean,
-  posts: Post[]
-}
 const initialState: iniState = {
   isLoading: false,
   posts: []
@@ -108,6 +105,9 @@ const postSlice = createSlice({
             break;
           }
         }
+      })
+      .addCase(getUserProfile.fulfilled, (state, action) => {
+        state.posts = action.payload.user_posts.data.map( (post: LoadDataType) => post.attributes)
       })
   }
 })

@@ -9,7 +9,7 @@ module Api
         @user_posts = @user.posts
         render json: {
           user: @user,
-          user_posts: @user_posts
+          user_posts: ProfileSerializer.new(@user_posts, { params: { user: @user } }).serializable_hash
         }
       end
 
