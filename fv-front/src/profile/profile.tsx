@@ -34,7 +34,7 @@ export default function Profile(){
       }
 
       {
-        userPosts?.map(post =>   <Card user={userProfile} post={post}/>)
+        userPosts?.map(post =>   <Card user={userProfile} key={post.id} post={post}/>)
       }
     </div>
   )

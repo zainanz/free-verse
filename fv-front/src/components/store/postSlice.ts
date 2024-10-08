@@ -89,33 +89,25 @@ const postSlice = createSlice({
         }
         console.log("Updated ", state.posts[index])
       })
-      .addCase(likePost.fulfilled, (state, {payload}: {payload:Number}) => {
-        console.log(payload);
-
-        state.posts = state.posts.map( post =>{
-          console.log(post)
-          if (post.id === payload){
-            console.log("came here")
-            post.likes++;
-            post.post_liked_by_current_user = true
-            return post
+      .addCase(likePost.fulfilled, (state, {payload}) => {
+        const post_id = parseInt(payload, 10)
+        for(let i = 0; i < state.posts.length; i++ ){
+          if(state.posts[i].id === post_id){
+            state.posts[i].post_liked_by_current_user = true;
+            state.posts[i].likes++;
+            break;
           }
-          return post
-        })
+        }
       })
-      .addCase(unlikePost.fulfilled, (state, {payload}:{payload:Number}) => {
-        console.log(payload);
-
-        state.posts = state.posts.map( post =>{
-          console.log(post)
-          if (post.id === payload){
-            console.log("came here")
-            post.likes++;
-            post.post_liked_by_current_user = false
-            return post
+      .addCase(unlikePost.fulfilled, (state, {payload}) => {
+        const post_id = parseInt(payload, 10)
+        for(let i = 0; i < state.posts.length; i++ ){
+          if(state.posts[i].id === post_id){
+            state.posts[i].post_liked_by_current_user = false;
+            state.posts[i].likes--;
+            break;
           }
-          return post
-        })
+        }
       })
   }
 })

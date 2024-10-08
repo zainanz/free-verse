@@ -32,9 +32,12 @@ export default function Card({post, user}: {post: Post, user?:User|null}){
   }
 
   const handleLike = () => {
+    console.log(post)
     dispatch(likePost(post.id))
   }
   const handleDislike = () => {
+    console.log(post)
+
     dispatch(unlikePost(post.id))
   }
 
