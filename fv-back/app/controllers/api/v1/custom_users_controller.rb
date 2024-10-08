@@ -5,10 +5,10 @@ module Api
       respond_to :json
 
       def get_profile
-        @user = User.find_by(username: get_username_params)
-        @user_posts = @user.posts
+        user = User.find_by(username: get_username_params)
+        @user_posts = user.posts
         render json: {
-          user: @user,
+          user: user,
           user_posts: ProfileSerializer.new(@user_posts, { params: { user: @user } }).serializable_hash
         }
       end

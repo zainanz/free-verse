@@ -69,10 +69,10 @@ export default function Card({post, user}: {post: Post, user?:User|null}){
         </div>
         {
           !editing && auth.isLoggedIn && (
-        <div className="w-full text-gray-500">
+        <div className="w-full text-gray-500 flex items-center">
           {
-            post.post_liked_by_current_user ? (<FontAwesomeIcon onClick={() => handleDislike()} className="text-red-500 hover:opacity-60" icon={faHeart} />) :
-            (<FontAwesomeIcon onClick={() => handleLike()} className="hover:text-white" icon={faHeart} />)
+            post.post_liked_by_current_user ? (<div className='flex items-center'><span className='text-gray-500 text-sm mr-1.5'>{post.likes}</span><FontAwesomeIcon onClick={() => handleDislike()} className="text-red-500 hover:opacity-60" icon={faHeart} /></div>) :
+            (<div className='flex items-center'><span className='text-gray-500 text-sm mr-1.5'>{post.likes}</span><FontAwesomeIcon onClick={() => handleLike()} className="hover:text-white" icon={faHeart} /></div>)
           }
           <FontAwesomeIcon className="ml-3 hover:text-white" icon={faShare} />
         </div>
