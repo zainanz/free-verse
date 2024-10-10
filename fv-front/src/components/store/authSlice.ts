@@ -29,6 +29,12 @@ export const getUserProfile = createAsyncThunk( "auth/getUserProfile", async (us
     }
 })
 
+
+export const logOut = createAsyncThunk( "auth/logout", async () => {
+  const res = await  axios.delete("/signout")
+  return res
+})
+
 export const verifyUser = createAsyncThunk( "auth/verifyUser", async () => {
   try {
 

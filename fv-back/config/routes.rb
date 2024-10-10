@@ -13,6 +13,7 @@ Rails.application.routes.draw do
 
       get "/verify_user", to: "custom_users#verify_user"
       get "/profile/:username", to: "custom_users#get_profile"
+      delete "/signout", to: "custom_users#logout"
       get "/posts", to: "posts#all_post"
       post "/create_post", to: "posts#create_post"
       patch "update_post", to: "posts#update_post"

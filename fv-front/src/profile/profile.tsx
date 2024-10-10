@@ -39,6 +39,7 @@ export default function Profile(){
 
   return (
     <div>
+      <a href="/">go home</a>
       {
        <h2>{ userProfile?.username}</h2>
       }

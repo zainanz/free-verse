@@ -29,7 +29,7 @@ export default function Login() {
   return (
     <form onSubmit={handleSubmit}>
       <input onChange={handleUser} value={user.username} name="username" type="text" placeholder="email or username" id="" />
-      <input onChange={handleUser} value={user.password} name="password" type="text" placeholder="password" id="" />
+      <input onChange={handleUser} value={user.password} name="password" type="password" placeholder="password" id="" />
       <p className="text-warning">{auth.Error}</p>
       <input type="submit" value="login"/>
     </form>

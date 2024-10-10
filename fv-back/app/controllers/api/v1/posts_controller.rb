@@ -5,7 +5,6 @@ module Api
 
       def update_post
         begin
-
           edit_data = permit_edit_params
           post = Post.find(edit_data[:post_id])
           post.update!(content: edit_data[:updatedContent])

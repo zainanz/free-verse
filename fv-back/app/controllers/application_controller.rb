@@ -9,8 +9,9 @@ class ApplicationController < ActionController::API
   def authenticate_user
     begin
       token = request.headers["Authorization"].split(" ").last
-      decoded = JWT.decode(token,  Rails.application.credentials.devise_jwt_secret_key!, "HS256")
+      decoded = JWT.decode(token,  Rails.application.credentials.devise_jwt_secret_key!)
       @user = User.find(decoded[0]["user_id"])
+      throw :ExpiredSignature unless @user.jti === decoded[0]["jti"]
     rescue JWT::ExpiredSignature
       render json: { message: "Token has expired" }, status: :unauthorized
     rescue => exception
