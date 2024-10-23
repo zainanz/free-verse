@@ -1,0 +1,65 @@
+.login-form{
+    width: 400px;
+    align-items: center;
+    border-radius: 10px;
+    padding-bottom: 30px;
+    font-size: 16px;
+}
+.login-form > input {
+    margin: 10px 0px;
+    width: 313px;
+    height: 28px;
+    border-radius: 3px;
+}
+
+.login-form > input[type=password]::placeholder, .login-form [type=text]::placeholder {
+    color: var(--guide-text-whitebg);
+}
+.login-form > p {
+    color: var(--error-red-color);
+    font-size: 12px;
+    margin: 0px;
+}
+.login-form > input[type=submit]{
+    font-weight: 800;
+    font-size: 16px;
+    text-transform: capitalize;
+    transition: 100ms ease-in-out opacity;
+    &:hover{
+        opacity: .5;
+    }
+}
+
+.login-form > div a {
+    font-size: 12px;
+    color: var(--guide-text-darkbg);
+    &:hover{
+        opacity: .3;
+    }
+}
+.login-form > div {
+    display: flex;
+    flex-direction: column;
+    width: 313px;
+}
+
+.secondary-form-btn{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 313px;
+    height: 28px;
+    /* background: var(--text-area-whitecolor); */
+    border-radius: 3px;
+    text-decoration: none;
+    color:white;
+    font-weight: 800;
+    font-size: 16px;
+    transition: 100ms ease-in-out opacity, 100ms ease-in-out transform;
+    &:hover{
+        opacity: .5;
+        transform: scale(.9);
+    }
+
+}
+

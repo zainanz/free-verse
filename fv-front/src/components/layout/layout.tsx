@@ -5,21 +5,22 @@ import { verifyUser } from "../store/authSlice";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../store/store";
 export default function Layout() {
-
   const dispatch = useDispatch<AppDispatch>();
 
-  const checkUser = useCallback( () => {
-    dispatch(verifyUser())
-  }, [dispatch])
+  const checkUser = useCallback(() => {
+    dispatch(verifyUser());
+  }, [dispatch]);
 
-  useEffect( () => {
-    checkUser()
-  }, [checkUser])
+  useEffect(() => {
+    checkUser();
+  }, [checkUser]);
 
   return (
-    <div>
-      <div><Navbar/></div>
-      <Outlet/>
+    <div className="h-full">
+      <div>
+        <Navbar />
+      </div>
+      <Outlet />
     </div>
-  )
+  );
 }
