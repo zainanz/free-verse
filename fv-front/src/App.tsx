@@ -11,6 +11,7 @@ import Home from "./components/homepage/homepage";
 import Layout from "./components/layout/layout";
 import Login from "./components/form/login";
 import Profile from "./profile/profile";
+import Signup from "./components/form/signup";
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -18,6 +19,7 @@ const router = createBrowserRouter(
       <Route path="/" element={<Layout />}>
         <Route index element={<Home />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/signup" element={<Signup />} />
         <Route path="/:username" element={<Profile />} />
       </Route>
     </>

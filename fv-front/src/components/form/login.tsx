@@ -52,7 +52,7 @@ export default function Login() {
           <a href="#">Forgot password</a>
         </div>
         <input type="submit" value="login" />
-        <a className="secondary-form-btn" href="#">
+        <a className="secondary-form-btn" href="/signup">
           Create account
         </a>
       </form>

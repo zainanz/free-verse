@@ -10,6 +10,7 @@
     width: 313px;
     height: 28px;
     border-radius: 3px;
+    padding: 0px 5px;
 }
 
 .login-form > input[type=password]::placeholder, .login-form [type=text]::placeholder {
@@ -63,3 +64,13 @@
 
 }
 
+.login-form label{
+    width: 320px;
+    font-size: 12px;
+}
+
+
+.message-signup{
+    width: 400px;
+    margin-right: 250px;
+}
